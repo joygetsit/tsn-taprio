@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#cd ~/Documents/TASim/
-
-#./installdriver.sh
-#./install_bridge.sh
-
 xterm -title "UDPRx#1" -hold -e "sudo ip netns exec nsRX iperf -s -u -p 3001" &
 xterm -title "UDPRx#2" -hold -e "sudo ip netns exec nsRX iperf -s -u -p 3002" &
 xterm -title "UDPRx#3" -hold -e "sudo ip netns exec nsRX iperf -s -u -p 3003" &
