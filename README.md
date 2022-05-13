@@ -1,10 +1,11 @@
 # TSN
 Programs and scripts to test TSN on Linux
 
-To run the scripts when they are first downloaded to the PC, execute:
-sudo chmod 777 installdriver.sh
-sudo chmod 777 uninstallbridge.sh
-sudo chmod 777 install_bridge.sh 
+To run the scripts when they are first downloaded to the PC, execute:  
+sudo chmod 777 installdriver.sh  
+sudo chmod 777 uninstallbridge.sh  
+sudo chmod 777 install_bridge.sh  
+
 
 To make and load the module for the first time,
 execute 'sudo make'.
