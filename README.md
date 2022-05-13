@@ -8,7 +8,7 @@ sudo chmod 777 install_bridge.sh
 
 
 To make and load the module for the first time,
-execute 'sudo make'.
+execute 'sudo make'.    
 To delete all interfaces and remove the module, execute 'sudo make unload'
 
 To load multi-queue TSN interface driver and configure 4 TSN interfaces, execute './installdriver.sh'.
