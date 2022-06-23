@@ -6,10 +6,8 @@ execute 'sudo make'.
 To delete all interfaces and remove the module, execute 'sudo make unload'  
 
 To run the scripts when they are first downloaded to the PC, execute following commands to give permissions:  
-sudo chmod 777 installdriver.sh  
-sudo chmod 777 uninstallbridge.sh  
-sudo chmod 777 install_bridge.sh  
-sudo chmod 777 Script_TSN.sh
+sudo chmod 777 TASim/installdriver.sh   
+sudo chmod 777 install_bridge.sh uninstallbridge.sh Script_TSN.sh
 
 To load multi-queue TSN interface driver and configure 4 TSN interfaces, execute './installdriver.sh'.
 
