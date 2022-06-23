@@ -1,15 +1,15 @@
 # TSN
 Programs and scripts to test TSN on Linux
 
-To run the scripts when they are first downloaded to the PC, execute:  
+To make and load the module for the first time,
+execute 'sudo make'.    
+To delete all interfaces and remove the module, execute 'sudo make unload'  
+
+To run the scripts when they are first downloaded to the PC, execute following commands to give permissions:  
 sudo chmod 777 installdriver.sh  
 sudo chmod 777 uninstallbridge.sh  
 sudo chmod 777 install_bridge.sh  
-
-
-To make and load the module for the first time,
-execute 'sudo make'.    
-To delete all interfaces and remove the module, execute 'sudo make unload'
+sudo chmod 777 Script_TSN.sh
 
 To load multi-queue TSN interface driver and configure 4 TSN interfaces, execute './installdriver.sh'.
 
