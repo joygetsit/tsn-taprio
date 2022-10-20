@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# The follwing set of codes (use newer iputils2 set of commands) to
+# create a switch from multiple Ethernet ports of a NIC.
  #sudo brctl addbr br0
  #sudo brctl addif br0 TN1
  #sudo brctl addif br0 TN2
  #sudo ifconfig br0 up 
  #sudo modprobe br_netfilter
+# sudo ip link add name br0 type bridge  
+# # sudo ip link set dev br0 up
+# sudo ip link set enp1s0np0 master br0
+# sudo ip link set enp1s0np1 master br0
 
 ip a # Show all network devices/interfaces
 # Creates network namespaces (acts like computer nodes, with only deactivated loopback devices)
