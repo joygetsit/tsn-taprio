@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# The follwing set of codes (use newer iputils2 set of commands) to
+# The following set of codes (use newer iputils2 set of commands) to
 # create a switch from multiple Ethernet ports of a NIC.
  #sudo brctl addbr br0
  #sudo brctl addif br0 TN1
@@ -49,7 +49,7 @@ sudo ip netns exec nsRX ip link set dev TN3 up
 sudo ip link set br0 up
 sudo modprobe br_netfilter
 
-# Call these before modifying qdisc becuase it resets the qdiscs
+# Call these before modifying qdisc because it resets the qdiscs
 echo 1 > /proc/sys/net/bridge/bridge-nf-filter-vlan-tagged 
 echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables 
 echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables 
