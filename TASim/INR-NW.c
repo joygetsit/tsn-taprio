@@ -86,10 +86,10 @@ get_send2cpu ()
 */
 void INR_NW_rx (struct net_device *nwdev, struct INR_NW_packet *pkt){
     
-    INR_LOG_debug (loglevel_info"rx called\n");
-
     struct sk_buff *skb;
     struct INR_NW_priv *priv = netdev_priv(nwdev);
+        
+    INR_LOG_debug (loglevel_info"rx called\n");
 
     skb = dev_alloc_skb(pkt->datalen + 2);
     if (!skb) {
@@ -130,19 +130,23 @@ INR_NW_config (struct net_device *nwdev, struct ifmap *map)
 int
 INR_NW_open (struct net_device *nwdev)
 {
+
+    struct INR_NW_priv *priv = netdev_priv (nwdev);
+    uint8_t i = 0;
+    struct netdev_queue *queue;    
+    
     INR_LOG_debug (loglevel_info "NWDev open\n");
     memcpy (nwdev->dev_addr, "\0SNUL1", ETH_ALEN);
     memcpy (nwdev->broadcast, "\0\0\0\0\0\0", ETH_ALEN);
-    struct INR_NW_priv *priv = netdev_priv (nwdev);
-    nwdev->dev_addr[ETH_ALEN - 1] = priv->port;
+
+    // nwdev->dev_addr[ETH_ALEN - 1] = priv->port;
     //nwdev->num_tx_queues=2;
-    uint8_t i = 0;
     for (i = 0; i < ETH_ALEN; i++) {
         nwdev->broadcast[i] = (uint8_t) 0xff;
     }
     INR_LOG_debug (loglevel_info"HW-addr:%x Broadcast-addr:%x\n", nwdev->dev_addr, nwdev->broadcast);
     //netif_start_queue (nwdev);
-    struct netdev_queue *queue;
+
     for (i=0; i<TX_queue_count; i++) {
         queue= netdev_get_tx_queue(nwdev,
                                    i);
@@ -186,6 +190,8 @@ INR_NW_tx (struct sk_buff *skb, struct net_device *nwdev)
         unsigned int len;
         unsigned int consumed = 0;
         uint8_t to_port=0;
+        uint8_t *skb_data;
+        
         //printk("port %i\n",priv->port);
         if (priv->port==0) to_port=1;
         if (priv->port==1) to_port=0;
@@ -203,14 +209,9 @@ INR_NW_tx (struct sk_buff *skb, struct net_device *nwdev)
         }
         if (skb_shinfo(skb)->tx_flags & SKBTX_SW_TSTAMP)skb_tx_timestamp(skb);
 
-
-
         //#################
         skb->dev = get_nwdev (to_port);
 
-
-
-        uint8_t *skb_data;
         skb_data = kmemdup (skb->data, skb->len, GFP_DMA);
 
         priv->stats.tx_packets++;
@@ -301,9 +302,11 @@ errorhandling:
 int
 INR_NW_ioctl (struct net_device *nwdev, struct ifreq *rq, int cmd)
 {
-    INR_LOG_debug (loglevel_info"INR_NW_ioctl called\n");
+
     struct INR_NW_priv *priv = netdev_priv(nwdev);
     struct hwtstamp_config config;
+    INR_LOG_debug (loglevel_info"INR_NW_ioctl called\n");
+
     if (copy_from_user(&config, rq->ifr_data, sizeof(config)))
         return -EFAULT;
     if (config.flags)
@@ -429,8 +432,8 @@ INR_NW_init (struct net_device *nwdev)
 //*****************************************************************************************************************
 static int INR_NW_get_ts_info(struct net_device *nwdev, struct ethtool_ts_info *info)
 {   
-    INR_LOG_debug (loglevel_info"INR_NW_get_ts_info called\n");
     struct INR_NW_priv *priv = netdev_priv(nwdev);
+    INR_LOG_debug (loglevel_info"INR_NW_get_ts_info called\n");
 
     info->so_timestamping =
         SOF_TIMESTAMPING_TX_SOFTWARE |
@@ -477,8 +480,9 @@ INR_NW_set_features (struct net_device *net, netdev_features_t features)
 static int igb_setup_tc(struct net_device *dev, enum tc_setup_type type,void *type_data)
 {
 
-    INR_LOG_debug ("info: %s:%d %s ", __FILE__, __LINE__, __FUNCTION__);
     struct igb_adapter *adapter = netdev_priv(dev);
+   
+    INR_LOG_debug ("info: %s:%d %s ", __FILE__, __LINE__, __FUNCTION__);
     return 0;
     /*	switch (type) {
     	case TC_SETUP_QDISC_CBS:
