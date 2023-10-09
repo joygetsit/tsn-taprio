@@ -19,6 +19,7 @@
 #include <linux/net_tstamp.h>
 #include <linux/ethtool.h>
 #include <linux/ptp_clock_kernel.h>
+#include <linux/random.h>
 #include "INR-NW.h"
 #include "INR.h"
 //#include "INR-PCI.h"
@@ -85,10 +86,10 @@ get_send2cpu ()
 *@param pkt Ethernetpacket
 */
 void INR_NW_rx (struct net_device *nwdev, struct INR_NW_packet *pkt){
-    
+
     struct sk_buff *skb;
     struct INR_NW_priv *priv = netdev_priv(nwdev);
-        
+
     INR_LOG_debug (loglevel_info"rx called\n");
 
     skb = dev_alloc_skb(pkt->datalen + 2);
@@ -133,10 +134,13 @@ INR_NW_open (struct net_device *nwdev)
 
     struct INR_NW_priv *priv = netdev_priv (nwdev);
     uint8_t i = 0;
-    struct netdev_queue *queue;    
-    
+    struct netdev_queue *queue;
+
+    char mac_add_randomize[6] = "\0SNUL";
+    get_random_bytes(&mac_add_randomize[5],1);
+
     INR_LOG_debug (loglevel_info "NWDev open\n");
-    memcpy (nwdev->dev_addr, "\0SNUL1", ETH_ALEN);
+    memcpy (nwdev->dev_addr, mac_add_randomize, ETH_ALEN);
     memcpy (nwdev->broadcast, "\0\0\0\0\0\0", ETH_ALEN);
 
     // nwdev->dev_addr[ETH_ALEN - 1] = priv->port;
